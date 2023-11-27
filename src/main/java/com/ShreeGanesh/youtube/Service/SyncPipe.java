@@ -1,9 +1,9 @@
-package com.ShreeGanesh.youtube;
+package com.ShreeGanesh.youtube.Service;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
-class SyncPipe implements Runnable {
+public class SyncPipe implements Runnable {
     SyncPipe(OutputStream ostrm, InputStream istrm) {
         ostrm_ = ostrm;
         istrm_ = istrm;
