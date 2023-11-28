@@ -29,4 +29,10 @@ public class ExecutorController {
     public void showFormats() {
         executor.executeCommand(Executor.CommandType.SHOW_FORMATS);
     }
+
+    @GetMapping("/shows-formats")
+    @Operation(summary = "Show Formats operation", description = "Executes show formats command")
+    public void showsFormats() {
+        executor.executeCommand(Executor.CommandType.SHOWs_FORMATS);
+    }
 }

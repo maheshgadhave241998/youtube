@@ -24,6 +24,9 @@ public class Executor {
             case SHOW_FORMATS:
                 command = new String[]{exePath + "\\yt-dlp " + "-F "+ url};
                 break;
+            case SHOWs_FORMATS:
+                command = new String[]{exePath + "\\yt-dlp " + "-f "+"137 "+ url};
+                break;
             default:
                 throw new IllegalArgumentException("Invalid command type: " + commandType);
         }
@@ -62,6 +65,7 @@ public class Executor {
 
     public enum CommandType {
         DOWNLOAD_ONLY,
-        SHOW_FORMATS
+        SHOW_FORMATS,
+        SHOWs_FORMATS
     }
 }
