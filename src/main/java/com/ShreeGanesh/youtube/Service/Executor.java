@@ -19,10 +19,10 @@ public class Executor {
         String[] command;
         switch (commandType) {
             case DOWNLOAD_ONLY:
-                command = new String[]{exePath + "\\yt-dlp", url};
+                command = new String[]{exePath + "\\yt-dlp " + url};
                 break;
             case SHOW_FORMATS:
-                command = new String[]{exePath + "\\yt-dlp", "-F", url};
+                command = new String[]{exePath + "\\yt-dlp " + "-F "+ url};
                 break;
             default:
                 throw new IllegalArgumentException("Invalid command type: " + commandType);
