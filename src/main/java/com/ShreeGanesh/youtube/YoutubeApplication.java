@@ -1,3 +1,4 @@
+/*
 package com.ShreeGanesh.youtube;
 
 import com.ShreeGanesh.youtube.Service.Executor;
@@ -19,7 +20,8 @@ public class YoutubeApplication {
 
         SpringApplication.run(YoutubeApplication.class, args);
     }
-   /* @Bean
+   */
+/* @Bean
     public CommandLineRunner schedulingRunner() {
         return args -> {
             // Your background task or long-running process
@@ -28,6 +30,41 @@ public class YoutubeApplication {
                 Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
             }
         };
-    }*/
+    }*//*
 
+
+}
+*/
+
+package com.ShreeGanesh.youtube;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import java.awt.Desktop;
+import java.net.URI;
+
+@SpringBootApplication
+public class YoutubeApplication {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(YoutubeApplication.class, args);
+    }
+
+    @Bean
+    public CommandLineRunner openBrowser() {
+
+        return args -> {
+
+            String url = "http://localhost:8080/";
+
+            if (Desktop.isDesktopSupported()) {
+
+                Desktop.getDesktop().browse(new URI(url));
+            }
+        };
+    }
 }

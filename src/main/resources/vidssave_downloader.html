@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VidsSave.com - YouTube Video Downloader</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f0f0; }
+  .wrap { background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%); min-height: 100vh; padding: 28px 20px; }
+  .site-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .logo { font-size: 22px; font-weight: 700; color: white; }
+  .logo span { color: #facc15; }
+  .nav { display: flex; gap: 16px; }
+  .nav a { color: rgba(255,255,255,0.85); font-size: 13px; text-decoration: none; }
+  .nav a.active { color: #facc15; }
+  .hero { text-align: center; margin-bottom: 20px; }
+  .hero h1 { color: white; font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+  .hero p { color: rgba(255,255,255,0.85); font-size: 13px; }
+  .search-bar { display: flex; background: white; border-radius: 8px; overflow: hidden; max-width: 580px; margin: 0 auto 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .search-bar input { flex: 1; border: none; outline: none; padding: 13px 14px; font-size: 14px; color: #374151; }
+  .search-bar .clear-btn { background: none; border: none; cursor: pointer; padding: 0 10px; color: #9ca3af; font-size: 20px; line-height: 1; }
+  .dl-btn { background: #22c55e; color: white; border: none; padding: 13px 22px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .dl-btn:hover { background: #16a34a; }
+  .result-card { background: white; border-radius: 12px; max-width: 580px; margin: 0 auto; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.12); display: none; }
+  .result-inner { display: flex; }
+  .thumb-side { width: 190px; min-width: 190px; background: #1f2937; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 14px; }
+  .thumb-placeholder { width: 162px; height: 92px; background: #374151; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; overflow: hidden; }
+  .thumb-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+  .play-icon { width: 34px; height: 34px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .play-icon::after { content: ''; border-left: 13px solid white; border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 3px; }
+  .thumb-meta { color: #d1d5db; font-size: 11px; text-align: center; line-height: 1.5; }
+  .thumb-meta p { margin-bottom: 6px; }
+  .duration-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.1); border-radius: 12px; padding: 3px 10px; font-size: 11px; color: #d1d5db; margin-top: 4px; }
+  .formats-side { flex: 1; padding: 14px; overflow-y: auto; max-height: 340px; }
+  .section-label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 10px; }
+  .section-label i { font-size: 16px; color: #6366f1; }
+  .fmt-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid #f3f4f6; }
+  .fmt-row:last-child { border-bottom: none; }
+  .fmt-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; min-width: 38px; justify-content: center; }
+  .fmt-badge.mp4 { background: #fef9c3; color: #854d0e; }
+  .fmt-badge.mp3 { background: #fce7f3; color: #9d174d; }
+  .fmt-label { font-size: 13px; color: #374151; font-weight: 500; flex: 1; margin-left: 8px; }
+  .fmt-size { font-size: 12px; color: #9ca3af; min-width: 64px; text-align: right; margin-right: 8px; }
+  .dl-row-btn { background: #22c55e; color: white; border: none; border-radius: 6px; padding: 5px 13px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .dl-row-btn:hover { background: #16a34a; }
+  .music-section { margin-top: 12px; }
+  .show-more { text-align: center; padding: 8px; border-top: 0.5px solid #f3f4f6; }
+  .show-more a { font-size: 12px; color: #22c55e; text-decoration: none; }
+  .show-more a:hover { text-decoration: underline; }
+  .bottom-links { max-width: 580px; margin: 28px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .bottom-link { background: white; border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .bottom-link:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.14); }
+  .yt-icon { width: 32px; height: 32px; background: #ef4444; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .yt-icon::after { content: ''; border-left: 12px solid white; border-top: 7px solid transparent; border-bottom: 7px solid transparent; margin-left: 2px; }
+  .bottom-link span { font-size: 12px; color: #374151; font-weight: 500; line-height: 1.3; flex: 1; }
+  .arrow { color: #9ca3af; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- Header -->
+  <div class="site-header">
+    <div class="logo"><span>Vids</span>Save.com</div>
+    <div class="nav">
+      <a href="#" class="active">Home</a>
+      <a href="#">YouTube ▾</a>
+      <a href="#">Instagram ▾</a>
+      <a href="#">Facebook</a>
+      <a href="#">TikTok</a>
+      <a href="#">Pinterest</a>
+      <a href="#">Chrome Extension</a>
+      <a href="#">English ▾</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>YouTube Video Downloader</h1>
+    <p>Download YouTube Videos Online Free</p>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" id="urlInput" placeholder="Paste YouTube URL here..." />
+    <button class="clear-btn" onclick="clearInput()" title="Clear">×</button>
+    <button class="dl-btn" onclick="showResult()">
+      ⬇ Download
+    </button>
+  </div>
+
+  <!-- Result Card -->
+  <div class="result-card" id="resultCard">
+    <div class="result-inner">
+      <!-- Thumbnail Side -->
+      <div class="thumb-side">
+        <div class="thumb-placeholder">
+          <div class="play-icon"></div>
+        </div>
+        <div class="thumb-meta">
+          <p>Gehra Hua | Dhurandhar | Ranveer Singh, Sara Arjun, Shashwat Sachdev, Arijit Singh, Irshad Kamil</p>
+          <div class="duration-badge">⏱ 03:51</div>
+        </div>
+      </div>
+
+      <!-- Formats Side -->
+      <div class="formats-side">
+        <!-- Video Section -->
+        <div class="section-label">🎬 Video</div>
+
+        <div class="fmt-row">
+          <span class="fmt-badge mp4">MP4</span>
+          <span class="fmt-label">360P</span>
+          <span class="fmt-size">12.71 MB</span>
+          <button class="dl-row-btn">⬇ Download</button>
+        </div>
+        <div class="fmt-row">
+          <span class="fmt-badge mp4">MP4</span>
+          <span class="fmt-label">1440P</span>
+          <span class="fmt-size">63.05 MB</span>
+          <button class="dl-row-btn">⬇ Download</button>
+        </div>
+        <div class="fmt-row">
+          <span class="fmt-badge mp4">MP4</span>
+          <span class="fmt-label">2160P</span>
+          <span class="fmt-size">113.1 MB</span>
+          <button class="dl-row-btn">⬇ Download</button>
+        </div>
+        <div class="fmt-row">
+          <span class="fmt-badge mp4">MP4</span>
+          <span class="fmt-label">240P</span>
+          <span class="fmt-size">6.36 MB</span>
+          <button class="dl-row-btn">⬇ Download</button>
+        </div>
+        <div class="fmt-row">
+          <span class="fmt-badge mp4">MP4</span>
+          <span class="fmt-label">480P</span>
+          <span class="fmt-size">13.02 MB</span>
+          <button class="dl-row-btn">⬇ Download</button>
+        </div>
+
+        <!-- Music Section -->
+        <div class="music-section">
+          <div class="section-label">🎵 Music</div>
+          <div class="fmt-row">
+            <span class="fmt-badge mp3">MP3</span>
+            <span class="fmt-label">LOW</span>
+            <span class="fmt-size">868.79 KB</span>
+            <button class="dl-row-btn">⬇ Download</button>
+          </div>
+          <div class="fmt-row">
+            <span class="fmt-badge mp3">MP3</span>
+            <span class="fmt-label">48KBPS</span>
+            <span class="fmt-size">1.34 MB</span>
+            <button class="dl-row-btn">⬇ Download</button>
+          </div>
+          <div class="fmt-row">
+            <span class="fmt-badge mp3">MP3</span>
+            <span class="fmt-label">256KBPS</span>
+            <span class="fmt-size">4.01 MB</span>
+            <button class="dl-row-btn">⬇ Download</button>
+          </div>
+          <div class="fmt-row">
+            <span class="fmt-badge mp3">MP3</span>
+            <span class="fmt-label">128KBPS</span>
+            <span class="fmt-size">3.56 MB</span>
+            <button class="dl-row-btn">⬇ Download</button>
+          </div>
+        </div>
+
+        <div class="show-more"><a href="#">Show More</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Links -->
+  <div class="bottom-links">
+    <a href="#" class="bottom-link">
+      <div class="yt-icon"></div>
+      <span>YouTube Video Downloader</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="bottom-link">
+      <div class="yt-icon"></div>
+      <span>YouTube Downloader</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="bottom-link">
+      <div class="yt-icon"></div>
+      <span>YouTube Shorts</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="bottom-link">
+      <div class="yt-icon"></div>
+      <span>YouTube to MP3</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="bottom-link">
+      <div class="yt-icon"></div>
+      <span>YouTube Audio Downloader</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#" class="bottom-link">
+      <div class="yt-icon"></div>
+      <span>YouTube Song Downloader</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+
+<script>
+  function clearInput() {
+    document.getElementById('urlInput').value = '';
+    document.getElementById('resultCard').style.display = 'none';
+  }
+
+  function showResult() {
+    const url = document.getElementById('urlInput').value.trim();
+    if (!url) {
+      alert('Please paste a YouTube URL first.');
+      return;
+    }
+    document.getElementById('resultCard').style.display = 'block';
+    document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('urlInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') showResult();
+  });
+</script>
+</body>
+</html>

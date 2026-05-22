@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VidsSave.com - YouTube Video Downloader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #f4f6f9;
+      color: #222;
+    }
+
+    /* ── TOP NAV ── */
+    nav {
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 56px;
+    }
+
+    .logo {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: #f9c813; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    nav ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: color .2s;
+    }
+    nav ul li a:hover { color: #fff; }
+    nav ul li a.active { color: #f9c813; }
+
+    .lang-btn {
+      color: #ccc;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: transparent;
+      border: 1px solid #444;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: linear-gradient(135deg, #0ea6c2 0%, #15c680 100%);
+      padding: 8px 40px 0;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.85); text-decoration: none; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { margin: 0 6px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0ea6c2 0%, #15c680 100%);
+      padding: 40px 20px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative floating icons */
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 12px;
+      opacity: 0.15;
+    }
+
+    .hero-logo {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+    .hero-logo .vids { color: #f9c813; }
+
+    .hero h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 28px;
+    }
+
+    /* decorative corner cards */
+    .deco {
+      position: absolute;
+      opacity: 0.18;
+      color: #fff;
+    }
+    .deco-tl { top: 20px; left: 30px; font-size: 3rem; }
+    .deco-tr { top: 20px; right: 40px; font-size: 2.2rem; font-weight: 900; }
+    .deco-bl { bottom: 30px; left: 20px; font-size: 2.5rem; }
+    .deco-br { bottom: 20px; right: 30px; font-size: 2rem; font-weight: 900; }
+
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      background: #fff;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.18);
+    }
+
+    .search-wrap .globe {
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      color: #aaa;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .search-wrap input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      font-family: 'Nunito', sans-serif;
+      color: #555;
+      padding: 14px 0;
+      background: transparent;
+    }
+    .search-wrap input::placeholder { color: #bbb; }
+
+    .search-wrap button {
+      background: #22c55e;
+      color: #fff;
+      border: none;
+      padding: 0 32px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 0 50px 50px 0;
+      transition: background .2s;
+    }
+    .search-wrap button:hover { background: #16a34a; }
+
+    .search-wrap button svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* ── CARDS SECTION ── */
+    .cards-section {
+      max-width: 1100px;
+      margin: 40px auto 60px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      cursor: pointer;
+      text-decoration: none;
+      color: #222;
+      transition: box-shadow .2s, transform .15s;
+    }
+    .card:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-icon.red { background: #ff0000; }
+    .card-icon.shorts { background: #ff4500; }
+
+    .card-icon svg { width: 22px; height: 22px; fill: #fff; }
+
+    .card-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      flex: 1;
+    }
+
+    .card-arrow {
+      color: #bbb;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .cards-section { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+      .hero-logo { font-size: 2.2rem; }
+      .hero h1 { font-size: 1.4rem; }
+    }
+    @media (max-width: 480px) {
+      .search-wrap button span { display: none; }
+      .cards-section { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#"><span>Vids</span>Save.com</a>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#" class="active">YouTube ▾</a></li>
+    <li><a href="#">Instagram ▾</a></li>
+    <li><a href="#">Facebook</a></li>
+    <li><a href="#">TikTok</a></li>
+    <li><a href="#">Pinterest</a></li>
+    <li><a href="#">Chrome Extension</a></li>
+  </ul>
+  <button class="lang-btn">English ▾</button>
+</nav>
+
+<!-- HERO -->
+<div class="breadcrumb">
+  <a href="#">Home</a><span>›</span><a href="#">YouTube Video Downloader</a>
+</div>
+
+<section class="hero">
+  <!-- decorative labels -->
+  <div class="deco deco-tl">▶</div>
+  <div class="deco deco-tr">4K</div>
+  <div class="deco deco-bl">▶</div>
+  <div class="deco deco-br">MP3</div>
+
+  <div class="hero-logo"><span class="vids">Vids</span>Save.com</div>
+  <h1>YouTube Video Downloader</h1>
+  <p>Download YouTube Videos Online Free</p>
+
+  <div class="search-wrap">
+    <div class="globe">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+    </div>
+    <input type="text" placeholder="Paste YouTube video link" />
+    <button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8l7 4-7 4z"/></svg>
+      <span>Download</span>
+    </button>
+  </div>
+</section>
+
+<!-- CARDS -->
+<div class="cards-section">
+
+  <!-- Row 1 -->
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <!-- YouTube play icon -->
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <span class="card-label">YouTube Video Downloader</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <span class="card-label">YouTube Downloader</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <a class="card" href="#">
+    <div class="card-icon shorts">
+      <!-- Shorts "S" shape approximation -->
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 14.5v-9l7 4.5-7 4.5z"/></svg>
+    </div>
+    <span class="card-label">YouTube Shorts</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <!-- Row 2 -->
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18A9 9 0 0 0 12 3zm-1 13V8l6 4-6 4z"/></svg>
+    </div>
+    <span class="card-label">YouTube to MP3</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18A9 9 0 0 0 12 3zm-1 13V8l6 4-6 4z"/></svg>
+    </div>
+    <span class="card-label">YouTube Audio Downloader</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18A9 9 0 0 0 12 3zm-1 13V8l6 4-6 4z"/></svg>
+    </div>
+    <span class="card-label">YouTube Song Downloader</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <!-- Row 3 -->
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <span class="card-label">YouTube to MP4</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18A9 9 0 0 0 12 3zm-1 13V8l6 4-6 4z"/></svg>
+    </div>
+    <span class="card-label">YouTube Music</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+  <a class="card" href="#">
+    <div class="card-icon red">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <span class="card-label">YouTube Movies</span>
+    <span class="card-arrow">›</span>
+  </a>
+
+</div>
+
+</body>
+</html>
