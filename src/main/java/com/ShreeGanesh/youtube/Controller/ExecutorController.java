@@ -52,8 +52,12 @@ package com.ShreeGanesh.youtube.Controller;
 
 import com.ShreeGanesh.youtube.Service.Executor;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import java.io.File;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/api/executor")
@@ -90,13 +94,112 @@ public class ExecutorController {
         );
     }
     @GetMapping("/download-format")
-    public String downloadSpecificFormat(
+    public void downloadFormat(
+            @RequestParam String url,
+            @RequestParam String format,
+            HttpServletResponse response
+    ) {
+
+        try {
+
+            File file =
+                    executor.executeSpecificFormat(url, format);
+
+            if (file == null || !file.exists()) {
+
+                response.sendError(
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        "Download failed"
+                );
+
+                return;
+            }
+
+            response.setContentType(
+                    Files.probeContentType(file.toPath())
+            );
+
+            response.setHeader(
+                    "Content-Disposition",
+                    "attachment; filename=\"" + file.getName() + "\""
+            );
+
+            response.setContentLengthLong(file.length());
+
+            Files.copy(
+                    file.toPath(),
+                    response.getOutputStream()
+            );
+
+            response.getOutputStream().flush();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+    @GetMapping("/video-info")
+    public String getVideoInfo(@RequestParam String url) {
+
+        return executor.getVideoInfo(url);
+    }
+    @GetMapping("/download-progress")
+    public SseEmitter downloadWithProgress(
             @RequestParam String url,
             @RequestParam String format
     ) {
 
-        executor.executeSpecificFormat(url, format);
+        SseEmitter emitter =
+                new SseEmitter(0L);
 
-        return "Specific format download started";
+        new Thread(() -> {
+
+            executor.downloadWithProgress(
+                    url,
+                    format,
+                    emitter
+            );
+
+        }).start();
+
+        return emitter;
+    }
+    @GetMapping("/download-file")
+    public void downloadFile(
+            @RequestParam String path,
+            HttpServletResponse response
+    ) {
+
+        try {
+
+            File file =
+                    new File(path);
+
+            response.setContentType(
+                    "video/mp4"
+            );
+
+            response.setHeader(
+                    "Content-Disposition",
+                    "attachment; filename=\"" +
+                            file.getName() +
+                            "\""
+            );
+
+            response.setContentLengthLong(
+                    file.length()
+            );
+
+            Files.copy(
+                    file.toPath(),
+                    response.getOutputStream()
+            );
+
+            response.getOutputStream().flush();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
 }

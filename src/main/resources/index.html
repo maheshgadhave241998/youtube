@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>VidsSave.com – YouTube Video Downloader</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VidsSave.com – YouTube Video Downloader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"/>
+  <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -564,7 +565,9 @@
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: #f0f0f0; }
   ::-webkit-scrollbar-thumb { background: #c0c0c0; border-radius: 4px; }
-</style>
+
+
+    </style>
 </head>
 <body>
 
@@ -591,10 +594,13 @@
 
   <!-- INPUT -->
   <div class="input-wrap" id="inputWrap">
-    <input type="text" id="urlInput" placeholder="Paste YouTube video link" />
+    <input type="text" id="urlInput" placeholder="Paste YouTube video link"/>
     <button class="clear-btn" id="clearBtn" style="display:none" onclick="clearInput()">✕</button>
-    <button class="dl-btn" onclick="fetchVideo()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v14M5 9l7 7 7-7"/><path d="M3 20h18"/></svg>
+    <button type="button" class="dl-btn" onclick="fetchVideo()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M12 2v14M5 9l7 7 7-7"/>
+        <path d="M3 20h18"/>
+      </svg>
       Download
     </button>
   </div>
@@ -609,17 +615,22 @@
   <div class="results-panel" id="resultsPanel">
     <div class="result-header">
       <div class="result-thumb">
-        <img id="thumbImg" src="" alt="thumbnail"/>
+        <img id="thumbImg"
+             src="https://via.placeholder.com/120x72?text=Thumbnail"
+             alt="thumbnail"/>
         <div class="play-overlay">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
         </div>
       </div>
       <div class="result-meta">
-        <h3 id="videoTitle">Gerha Hua | Dhurandhar | Ranveer Singh, Sara Arjun, Shantanu Saikia</h3>
-        <p id="videoChannel">T-Series</p>
+        <h3 id="videoTitle">Loading...</h3>
+        <p id="videoChannel"></p>
         <span class="duration-badge">
-          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm1-8.5V7h-2v5.5l4.25 2.55.75-1.23-3-1.82z"/></svg>
-          <span id="videoDuration">03:51</span>
+          <svg viewBox="0 0 24 24"><path
+                  d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm1-8.5V7h-2v5.5l4.25 2.55.75-1.23-3-1.82z"/></svg>
+          <span id="videoDuration">00:00</span>
         </span>
       </div>
     </div>
@@ -627,14 +638,21 @@
     <div class="formats-section">
       <!-- VIDEO FORMATS -->
       <div class="formats-label">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4"/>
+        </svg>
         Video
       </div>
       <div id="videoFormats"></div>
 
       <!-- MUSIC FORMATS -->
       <div class="formats-label" style="margin-top:8px">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
         Music
       </div>
       <div id="musicFormats"></div>
@@ -650,47 +668,56 @@
   <div class="cards-grid">
     <div class="feature-card">
       <div class="fc-icon fc-yt">▶️</div>
-      <div class="fc-text"><h4>YouTube Video Downloader</h4><p>MP4, WebM up to 4K</p></div>
+      <div class="fc-text"><h4>YouTube Video Downloader</h4>
+        <p>MP4, WebM up to 4K</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-yt">▶️</div>
-      <div class="fc-text"><h4>YouTube Downloader</h4><p>Fast & free</p></div>
+      <div class="fc-text"><h4>YouTube Downloader</h4>
+        <p>Fast & free</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-yt">🩳</div>
-      <div class="fc-text"><h4>YouTube Shorts</h4><p>Download Shorts</p></div>
+      <div class="fc-text"><h4>YouTube Shorts</h4>
+        <p>Download Shorts</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-mp3">🎵</div>
-      <div class="fc-text"><h4>YouTube to MP3</h4><p>320 kbps audio</p></div>
+      <div class="fc-text"><h4>YouTube to MP3</h4>
+        <p>320 kbps audio</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-mp3">🔊</div>
-      <div class="fc-text"><h4>YouTube Audio Downloader</h4><p>MP3, M4A, OGG</p></div>
+      <div class="fc-text"><h4>YouTube Audio Downloader</h4>
+        <p>MP3, M4A, OGG</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-mp3">🎶</div>
-      <div class="fc-text"><h4>YouTube Song Downloader</h4><p>Full songs</p></div>
+      <div class="fc-text"><h4>YouTube Song Downloader</h4>
+        <p>Full songs</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-yt">📺</div>
-      <div class="fc-text"><h4>YouTube to MP4</h4><p>Best quality MP4</p></div>
+      <div class="fc-text"><h4>YouTube to MP4</h4>
+        <p>Best quality MP4</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-mp3">🎸</div>
-      <div class="fc-text"><h4>YouTube Music</h4><p>Music downloader</p></div>
+      <div class="fc-text"><h4>YouTube Music</h4>
+        <p>Music downloader</p></div>
       <span class="fc-arrow">›</span>
     </div>
     <div class="feature-card">
       <div class="fc-icon fc-yt">🎬</div>
-      <div class="fc-text"><h4>YouTube Movies</h4><p>Full movie download</p></div>
+      <div class="fc-text"><h4>YouTube Movies</h4>
+        <p>Full movie download</p></div>
       <span class="fc-arrow">›</span>
     </div>
   </div>
@@ -773,7 +800,8 @@
     <div class="howto-card">
       <div class="step-label s3">Step 3 :</div>
       <h4>Hit Download</h4>
-      <p>Click download to scan the video and reveal all available formats (MP4, MP3, etc.) and quality options.</p>
+      <p>Click download to scan the video and reveal all available formats (MP4, MP3, etc.) and quality
+        options.</p>
       <div class="mock-browser">
         <div class="mock-dots"><span></span><span></span><span></span></div>
         <div class="mock-url">
@@ -785,7 +813,8 @@
     <div class="howto-card">
       <div class="step-label s4">Step 4 :</div>
       <h4>Choose format & quality</h4>
-      <p>Select your preferred format (MP4, MP3, etc.) and high-quality resolution for your YouTube video download.</p>
+      <p>Select your preferred format (MP4, MP3, etc.) and high-quality resolution for your YouTube video
+        download.</p>
       <div class="mock-browser">
         <div class="mock-dots"><span></span><span></span><span></span></div>
         <div class="mock-quality-row">
@@ -909,9 +938,14 @@ function clearInput() {
 }
 
 // ── FETCH (DEMO) ──
-function fetchVideo() {
+async function fetchVideo() {
+
   const url = input.value.trim();
-  if (!url) { input.focus(); return; }
+
+  if (!url) {
+    input.focus();
+    return;
+  }
 
   const panel = document.getElementById('resultsPanel');
   const loading = document.getElementById('loadingWrap');
@@ -919,21 +953,210 @@ function fetchVideo() {
   panel.classList.remove('visible');
   loading.classList.add('visible');
 
-  setTimeout(() => {
+  try {
+
+    // GET VIDEO INFO
+    const infoResponse = await fetch(
+      `/api/executor/video-info?url=${encodeURIComponent(url)}`
+    );
+
+    const info = await infoResponse.json();
+
+    // SET TITLE
+    document.getElementById("videoTitle").innerText =
+      info.title || "Unknown Title";
+
+    // SET CHANNEL
+    document.getElementById("videoChannel").innerText =
+      info.uploader || "Unknown Channel";
+
+    // SET DURATION
+    const minutes =
+      Math.floor(info.duration / 60)
+        .toString()
+        .padStart(2, '0');
+
+    const seconds =
+      (info.duration % 60)
+        .toString()
+        .padStart(2, '0');
+
+    document.getElementById("videoDuration").innerText =
+      `${minutes}:${seconds}`;
+
+    // SET THUMBNAIL
+    document.getElementById("thumbImg").src =
+      info.thumbnail;
+
+    // GET FORMATS
+    const response = await fetch(
+      `/api/executor/show-formats?url=${encodeURIComponent(url)}`
+    );
+
+    const data = await response.text();
+
+    parseFormats(data);
+
     loading.classList.remove('visible');
 
-    // Populate demo data
-    document.getElementById('videoTitle').textContent =
-      'Gerha Hua | Dhurandhar | Ranveer Singh, Sara Arjun, Shantanu Saikia, Arijit Singh, Rakesh Kamil';
-    document.getElementById('videoChannel').textContent = 'T-Series Music';
-    document.getElementById('videoDuration').textContent = '03:51';
-    document.getElementById('thumbImg').src =
-      'https://img.youtube.com/vi/GXfb62kFsVU/mqdefault.jpg';
-
-    renderFormats();
     panel.classList.add('visible');
-    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, 1400);
+
+  } catch (e) {
+
+    loading.classList.remove('visible');
+
+    alert("Error fetching video");
+  }
+}
+function parseFormats(text) {
+
+  const videoFormatsDiv =
+    document.getElementById("videoFormats");
+
+  const musicFormatsDiv =
+    document.getElementById("musicFormats");
+
+  videoFormatsDiv.innerHTML = "";
+  musicFormatsDiv.innerHTML = "";
+
+  const lines = text.split("\n");
+
+  lines.forEach(line => {
+
+    line = line.trim();
+
+    if (!line) return;
+
+    // =========================
+    // AUDIO FORMATS
+    // =========================
+    if (line.includes("audio only")) {
+
+      const parts = line.split(/\s+/);
+
+      const id = parts[0];
+      const ext = parts[1];
+
+      let size = "Unknown";
+
+      // FIND SIZE
+      for (let i = 0; i < parts.length; i++) {
+
+        if (
+          parts[i].includes("MiB") ||
+          parts[i].includes("GiB") ||
+          parts[i].includes("KiB")
+        ) {
+          size = parts[i];
+          break;
+        }
+      }
+
+      const btn = `
+        <div class="format-row">
+
+          <span class="res-badge res-mp3">
+            ${ext.toUpperCase()}
+          </span>
+
+          <span class="format-res-text">
+            Audio
+          </span>
+
+          <span class="format-size">
+            ${size}
+          </span>
+
+          <button class="fmt-dl-btn"
+            onclick="downloadFormat('${id}')">
+
+            Download
+
+          </button>
+
+        </div>
+      `;
+
+      musicFormatsDiv.innerHTML += btn;
+    }
+
+    // =========================
+    // VIDEO FORMATS
+    // =========================
+    else if (
+      line.includes("mp4") ||
+      line.includes("webm")
+    ) {
+
+      const parts = line.split(/\s+/);
+
+      if (parts.length > 3) {
+
+        const id = parts[0];
+        const ext = parts[1];
+
+        let quality = "Video";
+        let size = "Unknown";
+
+        // FIND QUALITY + SIZE
+        for (let i = 0; i < parts.length; i++) {
+
+          // QUALITY
+          if (
+            parts[i].match(/^\d+p/) ||
+            parts[i].match(/^\d+p\d+/)
+          ) {
+            quality = parts[i];
+          }
+
+          // SIZE
+          if (
+            parts[i].includes("MiB") ||
+            parts[i].includes("GiB") ||
+            parts[i].includes("KiB")
+          ) {
+            size = parts[i];
+          }
+        }
+
+        const btn = `
+          <div class="format-row">
+
+            <span class="res-badge res-fhd">
+              ${quality}
+            </span>
+
+            <span class="format-res-text">
+              ${ext}
+            </span>
+
+            <span class="format-size">
+              ${size}
+            </span>
+
+            <button class="fmt-dl-btn"
+              onclick="downloadFormat('${id}')">
+
+              Download
+
+            </button>
+
+          </div>
+        `;
+
+        videoFormatsDiv.innerHTML += btn;
+      }
+    }
+  });
+}
+async function downloadFormat(formatId) {
+
+  const url = document.getElementById("urlInput").value;
+
+  window.open(
+    `/api/executor/download-format?url=${encodeURIComponent(url)}&format=${formatId}`,
+    "_blank"
+  );
 }
 
 // ── SHOW MORE / LESS ──
@@ -969,6 +1192,8 @@ function startDL(btn, label) {
 
 // ── INIT ──
 renderFAQ();
+
+
 </script>
 </body>
 </html>

@@ -31,20 +31,24 @@
     background: #fff;
     color: var(--text);
     overflow-x: hidden;
-  }
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
   /* ── TOP NAV ── */
   nav {
     background: #111;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0 32px;
     height: 44px;
     position: sticky;
     top: 0;
     z-index: 100;
-  }
+}
   .nav-logo { color: #fff; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; }
   .nav-logo span { color: var(--teal1); }
   .nav-links { display: flex; gap: 20px; }
@@ -530,6 +534,9 @@
     color: #666;
     font-size: 13px;
   }
+  .hero {
+    flex: 1;
+}
   footer .foot-logo {
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
@@ -566,6 +573,9 @@
   ::-webkit-scrollbar-track { background: #f0f0f0; }
   ::-webkit-scrollbar-thumb { background: #c0c0c0; border-radius: 4px; }
 
+
+
+
     </style>
 </head>
 <body>
@@ -573,14 +583,6 @@
 <!-- NAV -->
 <nav>
     <div class="nav-logo"><span>Vids</span>Save.com</div>
-    <div class="nav-links">
-        <a href="#" class="active">YouTube</a>
-        <a href="#">Instagram</a>
-        <a href="#">Facebook</a>
-        <a href="#">TikTok</a>
-        <a href="#">Pinterest</a>
-        <a href="#">Chrome Extension</a>
-    </div>
 </nav>
 
 <!-- HERO -->
@@ -614,7 +616,9 @@
     <div class="results-panel" id="resultsPanel">
         <div class="result-header">
             <div class="result-thumb">
-                <img id="thumbImg" src="" alt="thumbnail"/>
+                <img id="thumbImg"
+                     src="https://via.placeholder.com/120x72?text=Thumbnail"
+                     alt="thumbnail"/>
                 <div class="play-overlay">
                     <svg viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
@@ -622,12 +626,12 @@
                 </div>
             </div>
             <div class="result-meta">
-                <h3 id="videoTitle">Gerha Hua | Dhurandhar | Ranveer Singh, Sara Arjun, Shantanu Saikia</h3>
-                <p id="videoChannel">T-Series</p>
+                <h3 id="videoTitle">Loading...</h3>
+                <p id="videoChannel"></p>
                 <span class="duration-badge">
           <svg viewBox="0 0 24 24"><path
                   d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm1-8.5V7h-2v5.5l4.25 2.55.75-1.23-3-1.82z"/></svg>
-          <span id="videoDuration">03:51</span>
+          <span id="videoDuration">00:00</span>
         </span>
             </div>
         </div>
@@ -657,179 +661,6 @@
             <button class="show-more-btn" id="showMoreBtn" onclick="toggleMore()">Show Less ▲</button>
         </div>
     </div>
-</section>
-
-<!-- FEATURE LINKS -->
-<section class="features-section">
-    <p class="section-sub">Quick access to all download types</p>
-    <div class="cards-grid">
-        <div class="feature-card">
-            <div class="fc-icon fc-yt">▶️</div>
-            <div class="fc-text"><h4>YouTube Video Downloader</h4>
-                <p>MP4, WebM up to 4K</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-yt">▶️</div>
-            <div class="fc-text"><h4>YouTube Downloader</h4>
-                <p>Fast & free</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-yt">🩳</div>
-            <div class="fc-text"><h4>YouTube Shorts</h4>
-                <p>Download Shorts</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-mp3">🎵</div>
-            <div class="fc-text"><h4>YouTube to MP3</h4>
-                <p>320 kbps audio</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-mp3">🔊</div>
-            <div class="fc-text"><h4>YouTube Audio Downloader</h4>
-                <p>MP3, M4A, OGG</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-mp3">🎶</div>
-            <div class="fc-text"><h4>YouTube Song Downloader</h4>
-                <p>Full songs</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-yt">📺</div>
-            <div class="fc-text"><h4>YouTube to MP4</h4>
-                <p>Best quality MP4</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-mp3">🎸</div>
-            <div class="fc-text"><h4>YouTube Music</h4>
-                <p>Music downloader</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-        <div class="feature-card">
-            <div class="fc-icon fc-yt">🎬</div>
-            <div class="fc-text"><h4>YouTube Movies</h4>
-                <p>Full movie download</p></div>
-            <span class="fc-arrow">›</span>
-        </div>
-    </div>
-</section>
-
-<!-- SUPPORTED PLATFORMS -->
-<section class="platforms-section">
-    <h2 class="section-title">Supported Platforms</h2>
-    <p class="section-sub">Download videos from your favorite social media and video platforms</p>
-    <div class="platform-cards">
-        <div class="platform-card">
-            <div class="pc-icon">▶️</div>
-            <div class="pc-text">
-                <h4>YouTube Downloader</h4>
-                <p>Download YouTube videos in MP4, WebM. High quality up to 4K in HD</p>
-            </div>
-            <span class="pc-arrow">›</span>
-        </div>
-        <div class="platform-card">
-            <div class="pc-icon">📘</div>
-            <div class="pc-text">
-                <h4>Facebook Downloader</h4>
-                <p>Download Facebook videos, reels, stories in MP4 format</p>
-            </div>
-            <span class="pc-arrow">›</span>
-        </div>
-        <div class="platform-card">
-            <div class="pc-icon">🎵</div>
-            <div class="pc-text">
-                <h4>TikTok Downloader</h4>
-                <p>Download TikTok videos without watermark in HD</p>
-            </div>
-            <span class="pc-arrow">›</span>
-        </div>
-        <div class="platform-card">
-            <div class="pc-icon">📸</div>
-            <div class="pc-text">
-                <h4>Instagram Downloader</h4>
-                <p>Download Instagram videos, reels, IGTV, images, GIF</p>
-            </div>
-            <span class="pc-arrow">›</span>
-        </div>
-        <div class="platform-card">
-            <div class="pc-icon">📌</div>
-            <div class="pc-text">
-                <h4>Pinterest Downloader</h4>
-                <p>Download Pinterest videos, images, GIFs</p>
-            </div>
-            <span class="pc-arrow">›</span>
-        </div>
-    </div>
-</section>
-
-<!-- HOW TO USE -->
-<section class="howto-section">
-    <h2 class="section-title">How to Use</h2>
-    <p class="section-sub">Download any YouTube video in 4 simple steps</p>
-    <div class="howto-grid">
-        <div class="howto-card">
-            <div class="step-label s1">Step 1 :</div>
-            <h4>Copy YouTube video link</h4>
-            <p>Navigate to your desired video and copy the URL from the browser address bar.</p>
-            <div class="mock-browser">
-                <div class="mock-dots"><span></span><span></span><span></span></div>
-                <div class="mock-url"><span class="mock-url-text">youtube.com/watch?v=dXIyMS81B68</span></div>
-            </div>
-        </div>
-        <div class="howto-card">
-            <div class="step-label s2">Step 2 :</div>
-            <h4>Paste to VidsSave</h4>
-            <p>Open VidsSave and paste the YouTube link into our search input field.</p>
-            <div class="mock-browser">
-                <div class="mock-dots"><span></span><span></span><span></span></div>
-                <div class="mock-url">
-                    <span class="mock-url-text">vidssave.com</span>
-                    <button class="mock-btn">🔍</button>
-                </div>
-            </div>
-        </div>
-        <div class="howto-card">
-            <div class="step-label s3">Step 3 :</div>
-            <h4>Hit Download</h4>
-            <p>Click download to scan the video and reveal all available formats (MP4, MP3, etc.) and quality
-                options.</p>
-            <div class="mock-browser">
-                <div class="mock-dots"><span></span><span></span><span></span></div>
-                <div class="mock-url">
-                    <span class="mock-url-text">youtube.com/watch…</span>
-                    <button class="mock-btn">⬇</button>
-                </div>
-            </div>
-        </div>
-        <div class="howto-card">
-            <div class="step-label s4">Step 4 :</div>
-            <h4>Choose format & quality</h4>
-            <p>Select your preferred format (MP4, MP3, etc.) and high-quality resolution for your YouTube video
-                download.</p>
-            <div class="mock-browser">
-                <div class="mock-dots"><span></span><span></span><span></span></div>
-                <div class="mock-quality-row">
-                    <span class="mock-q-badge">1080P</span>
-                    <span class="mock-q-badge mp4">MP4</span>
-                    <span style="font-size:12px;color:#888">125MB</span>
-                    <button class="mock-btn" style="margin-left:auto">⬇ Download</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq-section">
-    <h2 class="section-title" style="text-align:center;margin-bottom:8px">Frequently Asked Questions</h2>
-    <p class="section-sub" style="margin-bottom:32px">Everything you need to know about VidsSave</p>
-    <div id="faqList"></div>
 </section>
 
 <!-- FOOTER -->
@@ -952,15 +783,49 @@ async function fetchVideo() {
 
   try {
 
+    // GET VIDEO INFO
+    const infoResponse = await fetch(
+      `/api/executor/video-info?url=${encodeURIComponent(url)}`
+    );
+
+    const info = await infoResponse.json();
+
+    // SET TITLE
+    document.getElementById("videoTitle").innerText =
+      info.title || "Unknown Title";
+
+    // SET CHANNEL
+    document.getElementById("videoChannel").innerText =
+      info.uploader || "Unknown Channel";
+
+    // SET DURATION
+    const minutes =
+      Math.floor(info.duration / 60)
+        .toString()
+        .padStart(2, '0');
+
+    const seconds =
+      (info.duration % 60)
+        .toString()
+        .padStart(2, '0');
+
+    document.getElementById("videoDuration").innerText =
+      `${minutes}:${seconds}`;
+
+    // SET THUMBNAIL
+    document.getElementById("thumbImg").src =
+      info.thumbnail;
+
+    // GET FORMATS
     const response = await fetch(
       `/api/executor/show-formats?url=${encodeURIComponent(url)}`
     );
 
     const data = await response.text();
 
-    loading.classList.remove('visible');
-
     parseFormats(data);
+
+    loading.classList.remove('visible');
 
     panel.classList.add('visible');
 
@@ -968,7 +833,7 @@ async function fetchVideo() {
 
     loading.classList.remove('visible');
 
-    alert("Error fetching formats");
+    alert("Error fetching video");
   }
 }
 function parseFormats(text) {
@@ -988,13 +853,32 @@ function parseFormats(text) {
 
     line = line.trim();
 
-    // AUDIO
+    if (!line) return;
+
+    // =========================
+    // AUDIO FORMATS
+    // =========================
     if (line.includes("audio only")) {
 
       const parts = line.split(/\s+/);
 
       const id = parts[0];
       const ext = parts[1];
+
+      let size = "Unknown";
+
+      // FIND SIZE
+      for (let i = 0; i < parts.length; i++) {
+
+        if (
+          parts[i].includes("MiB") ||
+          parts[i].includes("GiB") ||
+          parts[i].includes("KiB")
+        ) {
+          size = parts[i];
+          break;
+        }
+      }
 
       const btn = `
         <div class="format-row">
@@ -1008,7 +892,7 @@ function parseFormats(text) {
           </span>
 
           <span class="format-size">
-            Format ID: ${id}
+            ${size}
           </span>
 
           <button class="fmt-dl-btn"
@@ -1024,7 +908,9 @@ function parseFormats(text) {
       musicFormatsDiv.innerHTML += btn;
     }
 
-    // VIDEO
+    // =========================
+    // VIDEO FORMATS
+    // =========================
     else if (
       line.includes("mp4") ||
       line.includes("webm")
@@ -1036,13 +922,36 @@ function parseFormats(text) {
 
         const id = parts[0];
         const ext = parts[1];
-        const resolution = parts[2];
+
+        let quality = "Video";
+        let size = "Unknown";
+
+        // FIND QUALITY + SIZE
+        for (let i = 0; i < parts.length; i++) {
+
+          // QUALITY
+          if (
+            parts[i].match(/^\d+p/) ||
+            parts[i].match(/^\d+p\d+/)
+          ) {
+            quality = parts[i];
+          }
+
+          // SIZE
+          if (
+            parts[i].includes("MiB") ||
+            parts[i].includes("GiB") ||
+            parts[i].includes("KiB")
+          ) {
+            size = parts[i];
+          }
+        }
 
         const btn = `
           <div class="format-row">
 
             <span class="res-badge res-fhd">
-              ${resolution}
+              ${quality}
             </span>
 
             <span class="format-res-text">
@@ -1050,7 +959,7 @@ function parseFormats(text) {
             </span>
 
             <span class="format-size">
-              Format ID: ${id}
+              ${size}
             </span>
 
             <button class="fmt-dl-btn"
@@ -1070,14 +979,145 @@ function parseFormats(text) {
 }
 async function downloadFormat(formatId) {
 
-  const url = document.getElementById("urlInput").value;
+  const url =
+    document.getElementById("urlInput").value;
 
-  window.open(
-    `/api/executor/download-format?url=${encodeURIComponent(url)}&format=${formatId}`,
-    "_blank"
+  // POPUP
+  let popup =
+    document.getElementById("downloadPopup");
+
+  if (!popup) {
+
+    popup = document.createElement("div");
+
+    popup.id = "downloadPopup";
+
+    popup.style.position = "fixed";
+    popup.style.top = "20px";
+    popup.style.right = "20px";
+    popup.style.background = "#111";
+    popup.style.color = "#fff";
+    popup.style.padding = "14px 18px";
+    popup.style.borderRadius = "10px";
+    popup.style.zIndex = "99999";
+    popup.style.boxShadow =
+      "0 8px 25px rgba(0,0,0,0.3)";
+    popup.style.fontSize = "14px";
+    popup.style.minWidth = "280px";
+
+    document.body.appendChild(popup);
+  }
+
+  popup.innerHTML = `
+    <div style="font-weight:600;margin-bottom:8px">
+      Download Started
+    </div>
+
+    <div id="downloadStatus">
+      Connecting...
+    </div>
+
+    <div style="
+      height:6px;
+      background:#333;
+      border-radius:10px;
+      margin-top:10px;
+      overflow:hidden;
+    ">
+      <div id="progressBar" style="
+        width:0%;
+        height:100%;
+        background:#00e5b4;
+        transition:0.3s;
+      "></div>
+    </div>
+  `;
+
+ const eventSource =
+  new EventSource(
+    `/api/executor/download-progress?url=${encodeURIComponent(url)}&format=${formatId}`
   );
-}
 
+// ==========================
+// PROGRESS EVENT
+// ==========================
+eventSource.addEventListener("progress", function(event) {
+
+  const line = event.data;
+
+  console.log(line);
+
+  const match =
+    line.match(/(\d+(\.\d+)?)%/);
+
+  if (match) {
+
+    const percent = match[1];
+
+    document.getElementById(
+      "progressBar"
+    ).style.width = percent + "%";
+
+    document.getElementById(
+      "downloadStatus"
+    ).innerText =
+      `Downloading... ${percent}%`;
+  }
+});
+
+// ==========================
+// COMPLETE EVENT
+// ==========================
+eventSource.addEventListener("complete", function(event) {
+
+  const filePath = event.data;
+
+  console.log("FILE READY:", filePath);
+
+  document.getElementById(
+    "downloadStatus"
+  ).innerText =
+    "Finalizing download...";
+
+  document.getElementById(
+    "progressBar"
+  ).style.width = "100%";
+
+  // DOWNLOAD FILE
+  window.location.href =
+    `/api/executor/download-file?path=${encodeURIComponent(filePath)}`;
+
+  popup.innerHTML = `
+    <div style="font-weight:600">
+      ✅ Download Complete
+    </div>
+  `;
+
+  eventSource.close();
+
+  setTimeout(() => {
+
+    popup.remove();
+
+  }, 3000);
+});
+
+// ==========================
+// ERROR EVENT
+// ==========================
+eventSource.addEventListener("error", function(event) {
+
+  console.log(event);
+
+  popup.innerHTML = `
+    <div style="color:#ff7675">
+      Download Failed
+    </div>
+  `;
+
+  eventSource.close();
+});
+}
 // ── SHOW MORE / LESS ──
 let expanded = true;
 function toggleMore() {
@@ -1110,7 +1150,9 @@ function startDL(btn, label) {
 }
 
 // ── INIT ──
-renderFAQ();
+
+
+
 
 </script>
 </body>
