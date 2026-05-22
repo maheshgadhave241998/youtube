@@ -60,6 +60,7 @@ import java.io.File;
 import java.nio.file.Files;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/executor")
 public class ExecutorController {
 
