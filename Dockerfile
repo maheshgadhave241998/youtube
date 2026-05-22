@@ -1,4 +1,6 @@
-# Stage 1: Build the app
+# =========================
+# STAGE 1: BUILD SPRING BOOT APP
+# =========================
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 WORKDIR /app
@@ -9,16 +11,14 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 
-# Stage 2: Runtime image
+# =========================
+# STAGE 2: RUNTIME (RENDER)
+# =========================
 FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# ✅ IMPORTANT: clean + safe install (Render friendly)
-FROM eclipse-temurin:17-jdk
-
-WORKDIR /app
-
+# Install required system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ffmpeg \
@@ -27,11 +27,14 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Copy Spring Boot JAR
 COPY --from=build /app/target/*.jar app.jar
 
+# OPTIONAL: if you use cookies file
+# COPY cookies.txt /app/cookies.txt
+
+# Render uses dynamic port
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
-
-# Run Spring Boot
+# Run application
 ENTRYPOINT ["java","-jar","app.jar"]

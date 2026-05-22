@@ -8,9 +8,11 @@ import java.io.*;
 @Service
 public class Executor {
 
-    // Linux system-installed binaries
     private final String ytDlp = "yt-dlp";
     private final String ffmpeg = "ffmpeg";
+
+    // OPTIONAL cookies path (add file in docker if needed)
+    private final String cookiesPath = "/app/cookies.txt";
 
     // ==============================
     // DOWNLOAD SPECIFIC FORMAT
@@ -21,11 +23,10 @@ public class Executor {
 
             String tempDir = System.getProperty("java.io.tmpdir");
 
-            // =========================
-            // GET VIDEO TITLE
-            // =========================
+            // GET TITLE
             ProcessBuilder titlePb = new ProcessBuilder(
                     ytDlp,
+                    "--cookies", cookiesPath,
                     "--get-title",
                     url
             );
@@ -47,11 +48,10 @@ public class Executor {
 
             File outputFile = new File(tempDir, videoTitle + ".mp4");
 
-            // =========================
             // DOWNLOAD COMMAND
-            // =========================
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
+                    "--cookies", cookiesPath,
                     "--ffmpeg-location", ffmpeg,
                     "-f", format + "+bestaudio[ext=m4a]",
                     "--merge-output-format", "mp4",
@@ -73,10 +73,10 @@ public class Executor {
             }
 
             int exitCode = process.waitFor();
+
             System.out.println("YT-DLP EXIT CODE: " + exitCode);
 
             if (!outputFile.exists() || outputFile.length() == 0) {
-                System.out.println("FILE NOT CREATED");
                 return null;
             }
 
@@ -89,7 +89,7 @@ public class Executor {
     }
 
     // ==============================
-    // SHOW FORMATS / DOWNLOAD INFO
+    // SHOW FORMATS
     // ==============================
     public String executeCommand(CommandType commandType, String url) {
 
@@ -104,6 +104,7 @@ public class Executor {
                 case SHOW_FORMATS:
                     builder = new ProcessBuilder(
                             ytDlp,
+                            "--cookies", cookiesPath,
                             "--no-warnings",
                             "-F",
                             url
@@ -113,6 +114,7 @@ public class Executor {
                 case DOWNLOAD_ONLY:
                     builder = new ProcessBuilder(
                             ytDlp,
+                            "--cookies", cookiesPath,
                             "--ffmpeg-location", ffmpeg,
                             "-f", "bestvideo+bestaudio",
                             "--merge-output-format", "mp4",
@@ -133,23 +135,12 @@ public class Executor {
 
             String line;
             while ((line = reader.readLine()) != null) {
-
-                String lower = line.toLowerCase();
-
-                if (commandType == CommandType.SHOW_FORMATS) {
-                    if ((lower.contains("mp4") || lower.contains("m4a"))
-                            && !lower.contains("webm")) {
-                        output.append(line).append("\n");
-                    }
-                } else {
-                    output.append(line).append("\n");
-                }
+                output.append(line).append("\n");
             }
 
             process.waitFor();
 
         } catch (Exception e) {
-            e.printStackTrace();
             return e.getMessage();
         }
 
@@ -167,6 +158,7 @@ public class Executor {
 
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
+                    "--cookies", cookiesPath,
                     "--dump-json",
                     "--no-warnings",
                     url
@@ -194,18 +186,20 @@ public class Executor {
     }
 
     // ==============================
-    // DOWNLOAD WITH PROGRESS (SSE)
+    // SSE DOWNLOAD
     // ==============================
     public void downloadWithProgress(String url, String format, SseEmitter emitter) {
 
         try {
 
             String tempDir = System.getProperty("java.io.tmpdir");
-            String fileName = "vidsave_" + System.currentTimeMillis() + ".mp4";
+            String fileName = "vid_" + System.currentTimeMillis() + ".mp4";
+
             File outputFile = new File(tempDir, fileName);
 
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
+                    "--cookies", cookiesPath,
                     "--newline",
                     "--ffmpeg-location", ffmpeg,
                     "-f", format + "+bestaudio[ext=m4a]",
@@ -233,7 +227,7 @@ public class Executor {
 
             int exitCode = process.waitFor();
 
-            if (exitCode == 0 && outputFile.exists() && outputFile.length() > 0) {
+            if (exitCode == 0 && outputFile.exists()) {
 
                 emitter.send(
                         SseEmitter.event()
@@ -246,7 +240,7 @@ public class Executor {
                 emitter.send(
                         SseEmitter.event()
                                 .name("error")
-                                .data("File not created")
+                                .data("Download failed")
                 );
             }
 
@@ -266,9 +260,6 @@ public class Executor {
         }
     }
 
-    // ==============================
-    // COMMAND TYPES
-    // ==============================
     public enum CommandType {
         DOWNLOAD_ONLY,
         SHOW_FORMATS,
