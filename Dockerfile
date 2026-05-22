@@ -14,20 +14,22 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# ✅ Install required system dependencies
-RUN apt-get update && apt-get install -y \
+# ✅ IMPORTANT: clean + safe install (Render friendly)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     ffmpeg \
     curl \
-    && pip3 install yt-dlp \
-    && apt-get clean
+    && pip3 install --no-cache-dir yt-dlp \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy jar
 COPY --from=build /app/target/*.jar app.jar
 
-# Render port
 EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]
 
 # Run Spring Boot
 ENTRYPOINT ["java","-jar","app.jar"]
