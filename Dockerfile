@@ -31,7 +31,7 @@ RUN apt-get update && \
 COPY --from=build /app/target/*.jar app.jar
 
 # OPTIONAL: if you use cookies file
-# COPY cookies.txt /app/cookies.txt
+COPY cookies.txt /app/cookies.txt
 
 # Render uses dynamic port
 EXPOSE 8080

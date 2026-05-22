@@ -11,7 +11,7 @@ public class Executor {
     private final String ytDlp = "yt-dlp";
     private final String ffmpeg = "ffmpeg";
 
-    // OPTIONAL cookies path (add file in docker if needed)
+    // Cookies file (ONLY works if file exists in docker)
     private final String cookiesPath = "/app/cookies.txt";
 
     // ==============================
@@ -23,7 +23,9 @@ public class Executor {
 
             String tempDir = System.getProperty("java.io.tmpdir");
 
+            // =========================
             // GET TITLE
+            // =========================
             ProcessBuilder titlePb = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
@@ -48,14 +50,16 @@ public class Executor {
 
             File outputFile = new File(tempDir, videoTitle + ".mp4");
 
-            // DOWNLOAD COMMAND
+            // =========================
+            // DOWNLOAD VIDEO
+            // =========================
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
                     "--ffmpeg-location", ffmpeg,
+                    "--newline",
                     "-f", format + "+bestaudio[ext=m4a]",
                     "--merge-output-format", "mp4",
-                    "--newline",
                     "-o", outputFile.getAbsolutePath(),
                     url
             );
@@ -76,7 +80,7 @@ public class Executor {
 
             System.out.println("YT-DLP EXIT CODE: " + exitCode);
 
-            if (!outputFile.exists() || outputFile.length() == 0) {
+            if (exitCode != 0 || !outputFile.exists() || outputFile.length() == 0) {
                 return null;
             }
 
@@ -89,7 +93,7 @@ public class Executor {
     }
 
     // ==============================
-    // SHOW FORMATS
+    // SHOW FORMATS / DOWNLOAD INFO
     // ==============================
     public String executeCommand(CommandType commandType, String url) {
 
@@ -186,7 +190,7 @@ public class Executor {
     }
 
     // ==============================
-    // SSE DOWNLOAD
+    // SSE DOWNLOAD PROGRESS
     // ==============================
     public void downloadWithProgress(String url, String format, SseEmitter emitter) {
 
@@ -227,7 +231,7 @@ public class Executor {
 
             int exitCode = process.waitFor();
 
-            if (exitCode == 0 && outputFile.exists()) {
+            if (exitCode == 0 && outputFile.exists() && outputFile.length() > 0) {
 
                 emitter.send(
                         SseEmitter.event()
