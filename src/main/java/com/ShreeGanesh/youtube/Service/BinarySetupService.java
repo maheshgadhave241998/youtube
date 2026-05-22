@@ -16,7 +16,7 @@ public class BinarySetupService {
     // YOUR RESOURCE FOLDER
     // ======================================================
     public static final String BIN_DIR =
-            "src/main/resources";
+            "/src/main/resources";
 
     // ======================================================
     // FINAL EXE PATHS
