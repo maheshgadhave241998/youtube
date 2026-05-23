@@ -12,7 +12,7 @@ RUN mvn clean package -DskipTests
 
 
 # =========================
-# STAGE 2: RUNTIME (RENDER)
+# STAGE 2: RUNTIME
 # =========================
 FROM eclipse-temurin:17-jdk
 
@@ -24,8 +24,21 @@ RUN apt-get update && \
     ffmpeg \
     curl \
     yt-dlp \
+    unzip \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Install Deno
+RUN curl -fsSL https://deno.land/install.sh | sh
+
+# Add Deno to PATH
+ENV DENO_INSTALL="/root/.deno"
+ENV PATH="$DENO_INSTALL/bin:$PATH"
+
+# Verify installations
+RUN yt-dlp --version
+RUN ffmpeg -version
+RUN deno --version
 
 # Copy Spring Boot JAR
 COPY --from=build /app/target/*.jar app.jar
@@ -33,7 +46,7 @@ COPY --from=build /app/target/*.jar app.jar
 # OPTIONAL: if you use cookies file
 COPY cookies.txt /app/cookies.txt
 
-# Render uses dynamic port
+# Expose app port
 EXPOSE 8080
 
 # Run application
