@@ -214,11 +214,23 @@ public class Executor {
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
+
+                    "--extractor-args", "youtube:player_client=android",
+                    "--user-agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+
+                    "--no-playlist",
+                    "--no-warnings",
                     "--newline",
+
                     "--ffmpeg-location", ffmpeg,
-                    "-f", format + "++bestaudio/best",
+
+                    "-f", format + "+bestaudio/best",
+
                     "--merge-output-format", "mp4",
+
                     "-o", outputFile.getAbsolutePath(),
+
                     url
             );
             System.out.println("belowbuilder");
