@@ -1,25 +1,20 @@
 package com.ShreeGanesh.youtube.Service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 
 @Service
 public class Executor {
 
-    private static final Logger log = LoggerFactory.getLogger(Executor.class);
-
     private final String ytDlp = "yt-dlp";
     private final String ffmpeg = "ffmpeg";
 
+    // Cookies file (ONLY works if file exists in docker)
     private final String cookiesPath = "/app/cookies.txt";
-
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     // ==============================
     // DOWNLOAD SPECIFIC FORMAT
@@ -30,7 +25,9 @@ public class Executor {
 
             String tempDir = System.getProperty("java.io.tmpdir");
 
+            // =========================
             // GET TITLE
+            // =========================
             ProcessBuilder titlePb = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
@@ -48,15 +45,16 @@ public class Executor {
             titleProcess.waitFor();
 
             if (videoTitle == null || videoTitle.isBlank()) {
-                videoTitle = "vid_" + System.currentTimeMillis();
+                videoTitle = "vidsave_" + System.currentTimeMillis();
             }
 
             videoTitle = videoTitle.replaceAll("[\\\\/:*?\"<>|]", "");
 
             File outputFile = new File(tempDir, videoTitle + ".mp4");
 
-            log.info("Starting download: {}", url);
-
+            // =========================
+            // DOWNLOAD VIDEO
+            // =========================
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
@@ -68,50 +66,30 @@ public class Executor {
                     url
             );
 
+            builder.redirectErrorStream(true);
             Process process = builder.start();
 
-            // 🔥 ASYNC STREAM (IMPORTANT FIX)
-            executorService.submit(() -> {
-                try (BufferedReader reader =
-                             new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream())
+            );
 
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        log.info("[yt-dlp] {}", line);
-                    }
-
-                } catch (Exception e) {
-                    log.error("stdout error", e);
-                }
-            });
-
-            executorService.submit(() -> {
-                try (BufferedReader reader =
-                             new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        log.info("[yt-dlp-err] {}", line);
-                    }
-
-                } catch (Exception e) {
-                    log.error("stderr error", e);
-                }
-            });
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
 
             int exitCode = process.waitFor();
 
-            log.info("YT-DLP EXIT CODE: {}", exitCode);
+            System.out.println("YT-DLP EXIT CODE: " + exitCode);
 
             if (exitCode != 0 || !outputFile.exists() || outputFile.length() == 0) {
-                log.error("Download failed for URL: {}", url);
                 return null;
             }
 
             return outputFile;
 
         } catch (Exception e) {
-            log.error("executeSpecificFormat error", e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -154,6 +132,7 @@ public class Executor {
                     return "Invalid command type";
             }
 
+            builder.redirectErrorStream(true);
             Process process = builder.start();
 
             BufferedReader reader = new BufferedReader(
@@ -163,13 +142,11 @@ public class Executor {
             String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line).append("\n");
-                log.info(line);
             }
 
             process.waitFor();
 
         } catch (Exception e) {
-            log.error("executeCommand error", e);
             return e.getMessage();
         }
 
@@ -193,6 +170,7 @@ public class Executor {
                     url
             );
 
+            builder.redirectErrorStream(true);
             Process process = builder.start();
 
             BufferedReader reader = new BufferedReader(
@@ -207,7 +185,6 @@ public class Executor {
             process.waitFor();
 
         } catch (Exception e) {
-            log.error("getVideoInfo error", e);
             return e.getMessage();
         }
 
@@ -215,7 +192,7 @@ public class Executor {
     }
 
     // ==============================
-    // SSE DOWNLOAD PROGRESS (FIXED)
+    // SSE DOWNLOAD PROGRESS
     // ==============================
     public void downloadWithProgress(String url, String format, SseEmitter emitter) {
 
@@ -225,8 +202,6 @@ public class Executor {
             String fileName = "vid_" + System.currentTimeMillis() + ".mp4";
 
             File outputFile = new File(tempDir, fileName);
-
-            log.info("SSE download started: {}", url);
 
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
@@ -240,7 +215,6 @@ public class Executor {
             );
 
             builder.redirectErrorStream(true);
-
             Process process = builder.start();
 
             BufferedReader reader = new BufferedReader(
@@ -248,27 +222,16 @@ public class Executor {
             );
 
             String line;
-
             while ((line = reader.readLine()) != null) {
 
-                log.info("[SSE yt-dlp] {}", line);
-
-                try {
-                    emitter.send(
-                            SseEmitter.event()
-                                    .name("progress")
-                                    .data(line)
-                    );
-                } catch (Exception e) {
-                    log.error("SSE broken (client disconnected)", e);
-                    process.destroy();
-                    break;
-                }
+                emitter.send(
+                        SseEmitter.event()
+                                .name("progress")
+                                .data(line)
+                );
             }
 
             int exitCode = process.waitFor();
-
-            log.info("SSE EXIT CODE: {}", exitCode);
 
             if (exitCode == 0 && outputFile.exists() && outputFile.length() > 0) {
 
