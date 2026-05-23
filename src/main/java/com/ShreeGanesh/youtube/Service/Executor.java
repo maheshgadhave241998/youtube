@@ -160,56 +160,39 @@ public class Executor {
     // ==============================
     public String getVideoInfo(String url) {
 
-        StringBuilder output = new StringBuilder();
+        String command =
+                ytDlp +
+                        " --cookies "+cookiesPath+" --dump-json --no-warnings " +
+                        url +
+                        "\"";
+
+        StringBuilder output =
+                new StringBuilder();
 
         try {
-            System.out.println("###insidevideoinfomethodr");
-            System.out.println("STEP 1");
-            /*ProcessBuilder builder = new ProcessBuilder(
-                    ytDlp,
 
-                    " --cookies ", cookiesPath,
+            Process process =
+                    Runtime.getRuntime()
+                            .exec(command);
 
-                    " --extractor-args", " youtube:player_client=android",
-
-                    " --user-agent",
-                    " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-
-                    " --no-playlist",
-                    " --dump-json",
-                    " --no-warnings",
-
-                    " --socket-timeout ", "30 ",
-                    url
-            );*/
-            ProcessBuilder builder = new ProcessBuilder(
-                    ytDlp,
-                    " --cookies ", cookiesPath,
-                    " --dump-json ",
-                    " --no-warnings ",
-                    url
-            );
-            System.out.println("STEP 2");
-            System.out.println("###insidevideoino processor");
-            builder.redirectErrorStream(true);
-            System.out.println("STEP 3");
-            Process process = builder.start();
-            System.out.println("STEP 4 PROCESS STARTED");
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    process.getInputStream()
+                            )
+                    );
 
             String line;
 
             while ((line = reader.readLine()) != null) {
-                System.out.println("OUTPUT: " + line);
+
                 output.append(line);
             }
 
-            int exit = process.waitFor();
-            System.out.println("EXIT CODE: " + exit);
+            process.waitFor();
 
         } catch (Exception e) {
+
             return e.getMessage();
         }
 
