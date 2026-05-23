@@ -165,7 +165,7 @@ public class Executor {
         try {
             System.out.println("###insidevideoinfomethodr");
             System.out.println("STEP 1");
-            ProcessBuilder builder = new ProcessBuilder(
+            /*ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
 
                     " --cookies ", cookiesPath,
@@ -180,6 +180,13 @@ public class Executor {
                     " --no-warnings",
 
                     " --socket-timeout ", "30 ",
+                    url
+            );*/
+            ProcessBuilder builder = new ProcessBuilder(
+                    ytDlp,
+                    " --cookies ", cookiesPath,
+                    " --dump-json ",
+                    " --no-warnings ",
                     url
             );
             System.out.println("STEP 2");
