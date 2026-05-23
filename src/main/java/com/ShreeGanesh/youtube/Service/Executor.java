@@ -168,7 +168,7 @@ public class Executor {
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
 
-                    " --cookies", cookiesPath,
+                    " --cookies ", cookiesPath,
 
                     " --extractor-args", " youtube:player_client=android",
 
