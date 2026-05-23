@@ -178,8 +178,10 @@ public class Executor {
             );
 
             String line;
+
             while ((line = reader.readLine()) != null) {
                 output.append(line);
+                System.out.println("###insidevideoino line"+line);
             }
 
             process.waitFor();
