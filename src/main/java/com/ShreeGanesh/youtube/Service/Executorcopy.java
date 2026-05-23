@@ -9,10 +9,12 @@ import java.io.File;
 import java.io.InputStreamReader;
 
 @Service
-public class Executorcopy {
-
+public class Executor {
     private final String ytDlp = "yt-dlp";
     private final String ffmpeg = "ffmpeg";
+
+//    private final String ytDlp = "/src/main/resources";
+//    private final String ffmpeg = "/src/main/resources";
 
     // Cookies file (ONLY works if file exists in docker)
     private final String cookiesPath = "/app/cookies.txt";
@@ -162,7 +164,7 @@ public class Executorcopy {
         StringBuilder output = new StringBuilder();
 
         try {
-
+            System.out.println("###insidevideoinfomethodr");
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
@@ -170,7 +172,7 @@ public class Executorcopy {
                     "--no-warnings",
                     url
             );
-
+            System.out.println("###insidevideoino processor");
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
@@ -179,6 +181,7 @@ public class Executorcopy {
             );
 
             String line;
+
             while ((line = reader.readLine()) != null) {
                 output.append(line);
             }
@@ -196,14 +199,14 @@ public class Executorcopy {
     // SSE DOWNLOAD PROGRESS
     // ==============================
     public void downloadWithProgress(String url, String format, SseEmitter emitter) {
-
+        System.out.println("insidedownloadmethod");
         try {
 
             String tempDir = System.getProperty("java.io.tmpdir");
             String fileName = "vid_" + System.currentTimeMillis() + ".mp4";
 
             File outputFile = new File(tempDir, fileName);
-
+            System.out.println("nearbuilder");
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
@@ -214,7 +217,7 @@ public class Executorcopy {
                     "-o", outputFile.getAbsolutePath(),
                     url
             );
-
+            System.out.println("belowbuilder");
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
@@ -261,7 +264,8 @@ public class Executorcopy {
                                 .name("error")
                                 .data(e.getMessage())
                 );
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             emitter.completeWithError(e);
         }
@@ -272,4 +276,5 @@ public class Executorcopy {
         SHOW_FORMATS,
         SHOWS_FORMATS
     }
-}*/
+}
+*/
