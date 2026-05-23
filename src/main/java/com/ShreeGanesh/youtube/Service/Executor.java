@@ -195,14 +195,14 @@ public class Executor {
     // SSE DOWNLOAD PROGRESS
     // ==============================
     public void downloadWithProgress(String url, String format, SseEmitter emitter) {
-
+        System.out.println("insidedownloadmethod");
         try {
 
             String tempDir = System.getProperty("java.io.tmpdir");
             String fileName = "vid_" + System.currentTimeMillis() + ".mp4";
 
             File outputFile = new File(tempDir, fileName);
-
+            System.out.println("nearbuilder");
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,

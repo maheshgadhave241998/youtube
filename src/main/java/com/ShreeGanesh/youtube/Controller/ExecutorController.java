@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
 import java.io.File;
 import java.nio.file.Files;
 
@@ -44,6 +45,7 @@ public class ExecutorController {
                 url
         );
     }
+
     @GetMapping("/download-format")
     public void downloadFormat(
             @RequestParam String url,
@@ -89,17 +91,19 @@ public class ExecutorController {
             e.printStackTrace();
         }
     }
+
     @GetMapping("/video-info")
     public String getVideoInfo(@RequestParam String url) {
 
         return executor.getVideoInfo(url);
     }
+
     @GetMapping("/download-progress")
     public SseEmitter downloadWithProgress(
             @RequestParam String url,
             @RequestParam String format
     ) {
-
+        System.out.println("insidedownloadcontroller");
         SseEmitter emitter =
                 new SseEmitter(0L);
 
@@ -115,6 +119,7 @@ public class ExecutorController {
 
         return emitter;
     }
+
     @GetMapping("/download-file")
     public void downloadFile(
             @RequestParam String path,
