@@ -10,8 +10,8 @@ import java.io.InputStreamReader;
 @Service
 public class Executor {
 
-    private final String ytDlp = "yt-dlp";
-    private final String ffmpeg = "ffmpeg";
+    private final String ytDlp = "/src/main/resources";
+    private final String ffmpeg = "/src/main/resources";
 
     // Cookies file (ONLY works if file exists in docker)
     private final String cookiesPath = "/app/cookies.txt";
