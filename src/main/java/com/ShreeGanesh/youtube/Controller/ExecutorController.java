@@ -11,7 +11,7 @@ import java.io.File;
 import java.nio.file.Files;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://youtube-cbc6.up.railway.app")
 @RequestMapping("/api/executor")
 public class ExecutorController {
 
