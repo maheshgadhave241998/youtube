@@ -216,7 +216,7 @@ public class Executor {
                     "--cookies", cookiesPath,
                     "--newline",
                     "--ffmpeg-location", ffmpeg,
-                    "-f", format + "+bestaudio[ext=m4a]",
+                    "-f", format + "++bestaudio/best",
                     "--merge-output-format", "mp4",
                     "-o", outputFile.getAbsolutePath(),
                     url
