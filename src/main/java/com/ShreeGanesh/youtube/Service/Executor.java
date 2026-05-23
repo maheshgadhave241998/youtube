@@ -160,39 +160,39 @@ public class Executor {
     // ==============================
     public String getVideoInfo(String url) {
 
-        String command =
-                ytDlp +
-                        " --cookies "+cookiesPath+" --dump-json --no-warnings " +
-                        url +
-                        "\"";
-
-        StringBuilder output =
-                new StringBuilder();
+        StringBuilder output = new StringBuilder();
 
         try {
-            System.out.println("STEP1");
-            Process process =
-                    Runtime.getRuntime()
-                            .exec(command);
-            System.out.println("STEP2");
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    process.getInputStream()
-                            )
-                    );
-            System.out.println("STEP3");
+            System.out.println("###insidevideoinfomethodr");
+            System.out.println("STEP 1");
+
+            ProcessBuilder builder = new ProcessBuilder(
+                    ytDlp,
+//                    " --cookies ", cookiesPath,
+                    " --list-formats ",
+                    url
+            );
+            System.out.println("STEP 2");
+
+            builder.redirectErrorStream(true);
+            System.out.println("STEP 3");
+            Process process = builder.start();
+            System.out.println("STEP 4 PROCESS STARTED");
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream())
+            );
+
             String line;
-            System.out.println("STEP4");
+
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                System.out.println("OUTPUT: " + line);
                 output.append(line);
             }
-            System.out.println("STEP5");
-            process.waitFor();
-            System.out.println("STEP6");
-        } catch (Exception e) {
 
+            int exit = process.waitFor();
+            System.out.println("EXIT CODE: " + exit);
+
+        } catch (Exception e) {
             return e.getMessage();
         }
 
