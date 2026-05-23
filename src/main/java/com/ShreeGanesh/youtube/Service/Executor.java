@@ -9,9 +9,11 @@ import java.io.InputStreamReader;
 
 @Service
 public class Executor {
+    private final String ytDlp = "yt-dlp";
+    private final String ffmpeg = "ffmpeg";
 
-    private final String ytDlp = "/src/main/resources";
-    private final String ffmpeg = "/src/main/resources";
+//    private final String ytDlp = "/src/main/resources";
+//    private final String ffmpeg = "/src/main/resources";
 
     // Cookies file (ONLY works if file exists in docker)
     private final String cookiesPath = "/app/cookies.txt";
@@ -178,10 +180,10 @@ public class Executor {
             );
 
             String line;
-            System.out.println("###reader.readline()"+reader.readLine());
+
             while ((line = reader.readLine()) != null) {
+                System.out.println("LINE: " + line);
                 output.append(line);
-                System.out.println("###insidevideoino line"+line);
             }
 
             process.waitFor();
@@ -262,7 +264,8 @@ public class Executor {
                                 .name("error")
                                 .data(e.getMessage())
                 );
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             emitter.completeWithError(e);
         }
