@@ -170,27 +170,27 @@ public class Executor {
                 new StringBuilder();
 
         try {
-
+            System.out.println("STEP1");
             Process process =
                     Runtime.getRuntime()
                             .exec(command);
-
+            System.out.println("STEP2");
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
                                     process.getInputStream()
                             )
                     );
-
+            System.out.println("STEP3");
             String line;
-
+            System.out.println("STEP4");
             while ((line = reader.readLine()) != null) {
-
+                System.out.println(line);
                 output.append(line);
             }
-
+            System.out.println("STEP5");
             process.waitFor();
-
+            System.out.println("STEP6");
         } catch (Exception e) {
 
             return e.getMessage();
