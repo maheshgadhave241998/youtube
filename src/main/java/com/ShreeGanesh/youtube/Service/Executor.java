@@ -163,27 +163,21 @@ public class Executor {
         StringBuilder output = new StringBuilder();
 
         try {
-
+            System.out.println("###insidevideoinfomethodr");
             System.out.println("STEP 1");
-
             ProcessBuilder builder = new ProcessBuilder(
-                    "yt-dlp",
+                    ytDlp,
+                    "--cookies", cookiesPath,
                     "--dump-json",
                     "--no-warnings",
-                    "--no-playlist",
                     url
             );
-
             System.out.println("STEP 2");
-
+            System.out.println("###insidevideoino processor");
             builder.redirectErrorStream(true);
-
             System.out.println("STEP 3");
-
             Process process = builder.start();
-
             System.out.println("STEP 4 PROCESS STARTED");
-
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream())
             );
@@ -191,20 +185,14 @@ public class Executor {
             String line;
 
             while ((line = reader.readLine()) != null) {
-
                 System.out.println("OUTPUT: " + line);
-
                 output.append(line);
             }
 
             int exit = process.waitFor();
-
             System.out.println("EXIT CODE: " + exit);
 
         } catch (Exception e) {
-
-            e.printStackTrace();
-
             return e.getMessage();
         }
 
