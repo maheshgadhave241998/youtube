@@ -168,20 +168,18 @@ public class Executor {
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
 
-                    "--cookies", cookiesPath,
+                    " --cookies", cookiesPath,
 
-                    "--extractor-args", "youtube:player_client=android",
+                    " --extractor-args", " youtube:player_client=android",
 
-                    "--user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+                    " --user-agent",
+                    " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
 
-                    "--no-playlist",
-                    "--no-warnings",
+                    " --no-playlist",
+                    " --dump-json",
+                    " --no-warnings",
 
-                    "--socket-timeout", "30",
-
-                    "--dump-json",
-
+                    " --socket-timeout ", "30 ",
                     url
             );
             System.out.println("STEP 2");
