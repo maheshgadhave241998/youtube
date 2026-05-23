@@ -239,37 +239,34 @@ public class Executor {
                     url
             );
 
+            builder.redirectErrorStream(true);
+
             Process process = builder.start();
 
-            // READ OUTPUT STREAM (BLOCKING THREAD)
-            Thread stdoutThread = new Thread(() -> {
-                try (BufferedReader reader =
-                             new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream())
+            );
 
-                    String line;
-                    while ((line = reader.readLine()) != null) {
+            String line;
 
-                        log.info("[SSE yt-dlp] {}", line);
+            while ((line = reader.readLine()) != null) {
 
-                        emitter.send(
-                                SseEmitter.event()
-                                        .name("progress")
-                                        .data(line)
-                        );
-                    }
+                log.info("[SSE yt-dlp] {}", line);
 
+                try {
+                    emitter.send(
+                            SseEmitter.event()
+                                    .name("progress")
+                                    .data(line)
+                    );
                 } catch (Exception e) {
-                    log.error("stdout error", e);
+                    log.error("SSE broken (client disconnected)", e);
+                    process.destroy();
+                    break;
                 }
-            });
+            }
 
-            stdoutThread.start();
-
-            // WAIT FOR PROCESS FIRST
             int exitCode = process.waitFor();
-
-            // THEN WAIT FOR STREAM THREAD
-            stdoutThread.join();
 
             log.info("SSE EXIT CODE: {}", exitCode);
 
@@ -282,11 +279,6 @@ public class Executor {
                 );
 
             } else {
-
-                log.error("Download failed. ExitCode={}, FileExists={}, Size={}",
-                        exitCode,
-                        outputFile.exists(),
-                        outputFile.length());
 
                 emitter.send(
                         SseEmitter.event()
