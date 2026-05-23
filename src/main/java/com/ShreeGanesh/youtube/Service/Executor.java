@@ -169,7 +169,7 @@ public class Executor {
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
 //                    " --cookies ", cookiesPath,
-                    " --list-formats ",
+                    " -F ",
                     url
             );
             System.out.println("STEP 2");
