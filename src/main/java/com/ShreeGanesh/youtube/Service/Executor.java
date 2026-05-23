@@ -182,7 +182,6 @@ public class Executor {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                System.out.println("LINE: " + line);
                 output.append(line);
             }
 
@@ -217,7 +216,7 @@ public class Executor {
                     "-o", outputFile.getAbsolutePath(),
                     url
             );
-
+            System.out.println("belowbuilder");
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
