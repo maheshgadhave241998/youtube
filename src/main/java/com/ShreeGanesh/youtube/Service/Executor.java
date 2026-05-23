@@ -241,13 +241,12 @@ public class Executor {
 
             Process process = builder.start();
 
-            // 🔥 STREAM THREAD (REAL FIX)
-            executorService.submit(() -> {
+            // READ OUTPUT STREAM (BLOCKING THREAD)
+            Thread stdoutThread = new Thread(() -> {
                 try (BufferedReader reader =
                              new BufferedReader(new InputStreamReader(process.getInputStream()))) {
 
                     String line;
-
                     while ((line = reader.readLine()) != null) {
 
                         log.info("[SSE yt-dlp] {}", line);
@@ -260,11 +259,17 @@ public class Executor {
                     }
 
                 } catch (Exception e) {
-                    log.error("SSE stream error", e);
+                    log.error("stdout error", e);
                 }
             });
 
+            stdoutThread.start();
+
+            // WAIT FOR PROCESS FIRST
             int exitCode = process.waitFor();
+
+            // THEN WAIT FOR STREAM THREAD
+            stdoutThread.join();
 
             log.info("SSE EXIT CODE: {}", exitCode);
 
@@ -277,6 +282,11 @@ public class Executor {
                 );
 
             } else {
+
+                log.error("Download failed. ExitCode={}, FileExists={}, Size={}",
+                        exitCode,
+                        outputFile.exists(),
+                        outputFile.length());
 
                 emitter.send(
                         SseEmitter.event()
