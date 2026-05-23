@@ -52,6 +52,7 @@ public class ExecutorController {
             @RequestParam String format,
             HttpServletResponse response
     ) {
+        System.out.println("insidedownloadformatcontroller");
 
         try {
 
@@ -94,6 +95,7 @@ public class ExecutorController {
 
     @GetMapping("/video-info")
     public String getVideoInfo(@RequestParam String url) {
+        System.out.println("insidevideoinfoontroller");
 
         return executor.getVideoInfo(url);
     }
