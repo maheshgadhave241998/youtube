@@ -167,9 +167,21 @@ public class Executor {
             System.out.println("STEP 1");
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
+
                     "--cookies", cookiesPath,
-                    "--dump-json",
+
+                    "--extractor-args", "youtube:player_client=android",
+
+                    "--user-agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+
+                    "--no-playlist",
                     "--no-warnings",
+
+                    "--socket-timeout", "30",
+
+                    "--dump-json",
+
                     url
             );
             System.out.println("STEP 2");
@@ -214,23 +226,11 @@ public class Executor {
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
-
-                    "--extractor-args", "youtube:player_client=android",
-                    "--user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-
-                    "--no-playlist",
-                    "--no-warnings",
                     "--newline",
-
                     "--ffmpeg-location", ffmpeg,
-
-                    "-f", format + "+bestaudio/best",
-
+                    "-f", format + "+bestaudio[ext=m4a]",
                     "--merge-output-format", "mp4",
-
                     "-o", outputFile.getAbsolutePath(),
-
                     url
             );
             System.out.println("belowbuilder");
