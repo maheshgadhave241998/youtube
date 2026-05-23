@@ -161,7 +161,7 @@ public class Executor {
         StringBuilder output = new StringBuilder();
 
         try {
-
+            System.out.println("###insidevideoinfomethodr");
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
@@ -169,7 +169,7 @@ public class Executor {
                     "--no-warnings",
                     url
             );
-
+            System.out.println("###insidevideoino processor");
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
