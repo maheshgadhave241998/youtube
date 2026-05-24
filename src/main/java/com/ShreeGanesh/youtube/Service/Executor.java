@@ -256,6 +256,10 @@ public class Executor {
 
             int exitCode = process.waitFor();
 
+            System.out.println("DOWNLOAD EXIT CODE: " + exitCode);
+            System.out.println("FILE EXISTS: " + outputFile.exists());
+            System.out.println("FILE SIZE: " + outputFile.length());
+
             if (exitCode == 0 && outputFile.exists() && outputFile.length() > 0) {
 
                 emitter.send(
