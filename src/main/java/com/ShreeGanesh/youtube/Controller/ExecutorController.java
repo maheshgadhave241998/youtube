@@ -171,22 +171,59 @@ public class ExecutorController {
             @RequestParam("file") MultipartFile file
     ) {
 
+        System.out.println("===== COOKIE UPLOAD STARTED =====");
+
         try {
 
+            // FILE INFO
+            System.out.println("Original Filename: " + file.getOriginalFilename());
+            System.out.println("Content Type: " + file.getContentType());
+            System.out.println("File Size: " + file.getSize());
+
+            // EMPTY CHECK
             if (file.isEmpty()) {
+
+                System.out.println("ERROR: Uploaded file is empty");
+
                 return "File is empty";
             }
 
+            // SAVE LOCATION
             File cookiesFile =
                     new File("/app/cookies.txt");
 
-            cookiesFile.getParentFile().mkdirs();
+            System.out.println("Saving to: " + cookiesFile.getAbsolutePath());
 
+            // CREATE DIRECTORY IF NOT EXISTS
+            if (!cookiesFile.getParentFile().exists()) {
+
+                System.out.println("Creating directory: "
+                        + cookiesFile.getParentFile().getAbsolutePath());
+
+                cookiesFile.getParentFile().mkdirs();
+            }
+
+            // SAVE FILE
             file.transferTo(cookiesFile);
+
+            // VERIFY
+            if (cookiesFile.exists()) {
+
+                System.out.println("SUCCESS: File uploaded successfully");
+                System.out.println("Saved File Size: " + cookiesFile.length());
+
+            } else {
+
+                System.out.println("ERROR: File save failed");
+            }
+
+            System.out.println("===== COOKIE UPLOAD COMPLETED =====");
 
             return "Cookies uploaded successfully";
 
         } catch (Exception e) {
+
+            System.out.println("===== COOKIE UPLOAD FAILED =====");
 
             e.printStackTrace();
 
