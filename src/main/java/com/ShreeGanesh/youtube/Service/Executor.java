@@ -192,7 +192,7 @@ public class Executor {
 
             while ((line = reader.readLine()) != null) {
 
-                System.out.println("OUTPUT: " + line);
+//                System.out.println("OUTPUT: " + line);
 
                 output.append(line);
             }
@@ -246,7 +246,7 @@ public class Executor {
 
             String line;
             while ((line = reader.readLine()) != null) {
-
+                System.out.println("YT-DLP: " + line);
                 emitter.send(
                         SseEmitter.event()
                                 .name("progress")
