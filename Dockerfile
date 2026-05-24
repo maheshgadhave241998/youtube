@@ -19,14 +19,20 @@ FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
 # Install required system dependencies
+# Install required system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ffmpeg \
     curl \
-    yt-dlp \
     unzip \
+    python3 \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Install latest yt-dlp
+RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp \
+    -o /usr/local/bin/yt-dlp && \
+    chmod a+rx /usr/local/bin/yt-dlp
 
 # Install Deno
 RUN curl -fsSL https://deno.land/install.sh | sh
