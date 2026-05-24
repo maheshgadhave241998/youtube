@@ -576,6 +576,7 @@
 
 
 
+
     </style>
 </head>
 <body>
@@ -858,7 +859,10 @@ function parseFormats(text) {
     // =========================
     // AUDIO FORMATS
     // =========================
-    if (line.includes("audio only")) {
+    if (
+  line.includes("audio only") &&
+  line.includes("m4a")
+) {
 
       const parts = line.split(/\s+/);
 
@@ -912,8 +916,7 @@ function parseFormats(text) {
     // VIDEO FORMATS
     // =========================
     else if (
-      line.includes("mp4") ||
-      line.includes("webm")
+      line.includes("mp4")
     ) {
 
       const parts = line.split(/\s+/);
@@ -1150,6 +1153,7 @@ function startDL(btn, label) {
 }
 
 // ── INIT ──
+
 
 
 
