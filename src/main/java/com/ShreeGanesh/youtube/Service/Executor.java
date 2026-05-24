@@ -163,21 +163,27 @@ public class Executor {
         StringBuilder output = new StringBuilder();
 
         try {
-            System.out.println("###insidevideoinfomethodr");
+
+            System.out.println("### inside getVideoInfo()");
             System.out.println("STEP 1");
 
             ProcessBuilder builder = new ProcessBuilder(
                     ytDlp,
                     "--cookies", cookiesPath,
-                    "-F",
+                    "--dump-json",
                     url
             );
+
             System.out.println("STEP 2");
 
             builder.redirectErrorStream(true);
+
             System.out.println("STEP 3");
+
             Process process = builder.start();
+
             System.out.println("STEP 4 PROCESS STARTED");
+
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream())
             );
@@ -185,20 +191,29 @@ public class Executor {
             String line;
 
             while ((line = reader.readLine()) != null) {
+
                 System.out.println("OUTPUT: " + line);
+
                 output.append(line);
             }
 
             int exit = process.waitFor();
+
             System.out.println("EXIT CODE: " + exit);
 
+            if (exit != 0) {
+                return "{}";
+            }
+
         } catch (Exception e) {
-            return e.getMessage();
+
+            e.printStackTrace();
+
+            return "{}";
         }
 
         return output.toString();
     }
-
     // ==============================
     // SSE DOWNLOAD PROGRESS
     // ==============================
