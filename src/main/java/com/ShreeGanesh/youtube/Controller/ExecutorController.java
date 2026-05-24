@@ -163,26 +163,25 @@ public class ExecutorController {
         }
     }
 
-    @PostMapping("/upload-cookies")
+    @PostMapping(
+            value = "/upload-cookies",
+            consumes = "multipart/form-data"
+    )
     public String uploadCookies(
             @RequestParam("file") MultipartFile file
     ) {
 
         try {
 
-            // VALIDATE
             if (file.isEmpty()) {
                 return "File is empty";
             }
 
-            // SAVE LOCATION
             File cookiesFile =
                     new File("/app/cookies.txt");
 
-            // CREATE IF NOT EXISTS
             cookiesFile.getParentFile().mkdirs();
 
-            // SAVE FILE
             file.transferTo(cookiesFile);
 
             return "Cookies uploaded successfully";
