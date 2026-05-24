@@ -9,6 +9,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.File;
 import java.nio.file.Files;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
 
 @RestController
 //@CrossOrigin(origins = "https://youtube-cbc6.up.railway.app")
@@ -158,6 +160,38 @@ public class ExecutorController {
         } catch (Exception e) {
 
             e.printStackTrace();
+        }
+    }
+
+    @PostMapping("/upload-cookies")
+    public String uploadCookies(
+            @RequestParam("file") MultipartFile file
+    ) {
+
+        try {
+
+            // VALIDATE
+            if (file.isEmpty()) {
+                return "File is empty";
+            }
+
+            // SAVE LOCATION
+            File cookiesFile =
+                    new File("/app/cookies.txt");
+
+            // CREATE IF NOT EXISTS
+            cookiesFile.getParentFile().mkdirs();
+
+            // SAVE FILE
+            file.transferTo(cookiesFile);
+
+            return "Cookies uploaded successfully";
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return "Upload failed: " + e.getMessage();
         }
     }
 }
