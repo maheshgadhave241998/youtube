@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://youtube-cbc6.up.railway.app")
+                        .allowedOrigins("https://y2vids.up.railway.app")
                         .allowedMethods("*")
                         .allowedHeaders("*");
             }
