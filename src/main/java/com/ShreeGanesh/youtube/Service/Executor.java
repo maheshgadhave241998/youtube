@@ -167,9 +167,9 @@ public class Executor {
             System.out.println("STEP 1");
 
             ProcessBuilder builder = new ProcessBuilder(
-                    ytDlp+
-                    " --cookies " +cookiesPath+
-                    " -F "+
+                    ytDlp,
+                    "--cookies", cookiesPath,
+                    "-F",
                     url
             );
             System.out.println("STEP 2");
