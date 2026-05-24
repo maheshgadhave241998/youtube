@@ -230,7 +230,6 @@ public class Executor {
                     ytDlp,
                     "--cookies", cookiesPath,
                     "--newline",
-                    "--ffmpeg-location", ffmpeg,
                     "-f", format + "+bestaudio[ext=m4a]",
                     "--merge-output-format", "mp4",
                     "-o", outputFile.getAbsolutePath(),
